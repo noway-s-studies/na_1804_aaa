@@ -11,12 +11,10 @@ import eu.artouch.naelso.model.UserWrapper
 import eu.artouch.naelso.service.HandleResponse
 import eu.artouch.naelso.service.UserController
 
-class MainActivity : AppCompatActivity(){
-
+class MainActivity : AppCompatActivity() {
     @JvmField
     @BindView(R.id.main_list)
-    var mainList : RecyclerView? = null
-
+    var mainList: RecyclerView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -24,29 +22,22 @@ class MainActivity : AppCompatActivity(){
         setAdapter()
         getUsers()
     }
-
+    private fun setAdapter() {
+        mainList!!.layoutManager = LinearLayoutManager(this)
+        mainList!!.setHasFixedSize(true)
+        mainList!!.adapter = UserAdapter(this, ArrayList())
+    }
     private fun getUsers() {
-        UserController().getUsers(object : HandleResponse<UserWrapper>{
+        UserController().getUsers(object : HandleResponse<UserWrapper> {
             override fun onResponse(response: UserWrapper) {
                 if (response.users.isNotEmpty()) {
                     (mainList!!.adapter as UserAdapter).setDataSet(response.users)
                     mainList!!.adapter.notifyDataSetChanged()
                 }
             }
-
             override fun onError(error: Throwable) {
-                Toast.makeText(this@MainActivity, "Hiba történt", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@MainActivity, "Hiba történt!", Toast.LENGTH_LONG).show()
             }
-
         })
-    }
-
-    private fun setAdapter() {
-        mainList!!.layoutManager = LinearLayoutManager(this)
-        /**
-         * Fix elemméret így nem kell újraszámolnia
-         */
-        mainList!!.setHasFixedSize(true)
-        mainList!!.adapter = UserAdapter(this,ArrayList())
     }
 }

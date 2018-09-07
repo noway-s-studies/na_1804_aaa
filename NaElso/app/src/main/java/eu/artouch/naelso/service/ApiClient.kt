@@ -1,16 +1,15 @@
 package eu.artouch.naelso.service
 
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.squareup.moshi.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-class ApiClient{
+class ApiClient {
     companion object {
-        fun getClient(httpClient: OkHttpClient, baseUrl:String):Retrofit{
-
+        fun getClient(httpClient: OkHttpClient, baseUrl: String): Retrofit {
             val moshi = Moshi.Builder()
                     .add(KotlinJsonAdapterFactory())
                     .build()
